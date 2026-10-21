@@ -40,6 +40,12 @@ updates:
       interval: weekly
       day: monday
     labels: [dependencies, "area: docker"]
+    ignore:
+      # Node 25+ no longer bundles corepack, so `RUN corepack enable` fails
+      # with "corepack: not found" and the image build breaks. Stay on the
+      # 24 LTS line until the Dockerfiles stop depending on corepack.
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
